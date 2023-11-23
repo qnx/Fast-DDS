@@ -11,7 +11,9 @@ NAME=Fast-DDS
 #and USE_INSTALL_ROOT
 FAST-DDS_INSTALL_ROOT ?= $(INSTALL_ROOT_$(OS))
 
-FAST-DDS_VERSION = .2.10.0
+# These commands require GNU Make
+FAST-DDS_CMAKE_VERSION = $(shell bash -c "grep VERSION $(PROJECT_ROOT)/../CMakeLists.txt | grep fastrtps ")
+FAST-DDS_VERSION = .$(subst $\",,$(word 3,$(FAST-DDS_CMAKE_VERSION)))
 
 #choose Release or Debug
 CMAKE_BUILD_TYPE ?= Release
@@ -55,8 +57,8 @@ CMAKE_ARGS += -DBUILD_SHARED_LIBS=ON \
 FAST-DDS_CMAKE_ARGS = $(CMAKE_ARGS) \
                      -DQNX_INSTALL_ROOT=$(FAST-DDS_INSTALL_ROOT) \
                      -DSECURITY=ON \
-                     -DCOMPILE_EXAMPLES=OFF \
-                     -DEPROSIMA_BUILD_TESTS=OFF
+                     -DCOMPILE_EXAMPLES=ON \
+                     -DEPROSIMA_BUILD_TESTS=ON
 
 CONFIGURE_ASIO = $(ASIO_ROOT)/configure --exec-prefix $(FAST-DDS_INSTALL_ROOT)/$(CPUVARDIR) --prefix $(FAST-DDS_INSTALL_ROOT)
 
