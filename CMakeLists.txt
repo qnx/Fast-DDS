@@ -295,6 +295,10 @@ if(SECURITY AND QNX)
     set(OPENSSL_LIBRARIES ssl crypto)
 endif()
 
+if(QNX)
+    link_libraries(fsnotify)
+endif()
+
 option(SQLITE3_SUPPORT "Activate SQLITE3 support" ON)
 
 ###############################################################################
